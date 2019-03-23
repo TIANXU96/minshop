@@ -2,18 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="__JS__/jquery-3.3.1.min.js"></script>
     <title>Title</title>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ajax_post").click(function () {
+
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                $.ajax({
+                    url: '{:url("index/login/ajaxLogin")}',
+                    data:{
+                        'username':username,
+                        'pwd':password
+                    },
+                    type:"POST",
+                    dataType:"JSON",
+                    success: function (result) {
+                        $("#massage").html(result);
+                    }
+                })
+            })
+        });
+
+
+    </script>
+
 </head>
 <body>
-    <h1>THIS is index login index</h1>
-<form action="{:url('index/login/index')}" method="get">
+<h1>THIS is index login index</h1>
+<form action="" method="post" >
     <span>
-    username:    <input type="text" name="user" id="t">
+    username:    <input type="text" name="username" id="username">
     </span>
     <span>
-    password:    <input type="text" name="pwd" id="s">
+    password:    <input type="password" name="pwd" id="password">
     </span>
-    <input type="submit"  name="sub" value="提交" id="v">
+    <span id="massage"></span>
+    <input type="button" value="登陆"  id="ajax_post">
 </form>
 </body>
 </html>
