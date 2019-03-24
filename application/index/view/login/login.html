@@ -14,26 +14,38 @@
 
                 $.ajax({
                     url: '{:url("index/login/ajaxLogin")}',
-                    data:{
-                        'username':username,
-                        'pwd':password
+                    data: {
+                        'username': username,
+                        'pwd': password
                     },
-                    type:"POST",
-                    dataType:"JSON",
+                    type: "POST",
+                    dataType: "JSON",
                     success: function (result) {
-                        $("#massage").html(result);
+                        switch (result['id']) {
+                            case 0:
+                                $("#massage").html(result['mes']);
+                                break;
+                            case  1:
+                                $("#massage").html(result['mes']);
+                                break;
+                            case  2:
+                                $("#massage").html(result['mes']);
+                                break;
+                            case  3:
+                                    window.location.replace("{:url('index/index/index')}");
+                                //jump
+                                break;
+                        }
                     }
                 })
             })
         });
-
-
     </script>
 
 </head>
 <body>
 <h1>THIS is index login index</h1>
-<form action="" method="post" >
+<form action="" method="post">
     <span>
     username:    <input type="text" name="username" id="username">
     </span>
@@ -41,7 +53,7 @@
     password:    <input type="password" name="pwd" id="password">
     </span>
     <span id="massage"></span>
-    <input type="button" value="登陆"  id="ajax_post">
+    <input type="button" value="登陆" id="ajax_post">
 </form>
 </body>
 </html>

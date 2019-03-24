@@ -7,18 +7,18 @@ use app\index\model\Users;
 use think\Controller;
 use think\Loader;
 use think\Request;
-use think\View;
+use think\Session;
 
 class Login extends Controller
 {
     public function login()
     {
-        $request = Request::instance();
-
-
-//查看当前的 模块 @控制器 操作
-        getParameter($request);
-        return $this->fetch();
+        if (Session::has("users_name") && Session::has("users_id")) {
+            $this->redirect("index/index/index");
+        } else {
+            dump(Session::get('users_name'));
+            return $this->fetch();
+        }
     }
 
 
@@ -33,10 +33,14 @@ class Login extends Controller
                 'username' => $username,
                 'password' => $pwd
             ];
-            $res = $this->validate($data, 'User.login');
-            if (true !== $res) {
-                $this->assign('wrong', $res);
-                return $res;
+            $judgement = $this->validate($data, 'User.login');
+            $ajax_res = [];
+            if (true !== $judgement) {
+                $ajax_res = [
+                    'id' => 0,
+                    'mes' => $judgement
+                ];
+                return $ajax_res;
             } else {
                 //判断用户名是否存在
                 $map = [];
@@ -45,22 +49,44 @@ class Login extends Controller
                     ->where($map)
                     ->find();
                 if (empty($res)) {
-                    return '用户不存在';
+                    $ajax_res = [
+                        'id' => 1,
+                        'mes' => '用户不存在'
+                    ];
+                    return $ajax_res;
                 } else {
-                    $mesg = $res->getData();
-                    if ($mesg['users_password'] !== md5($pwd)) {
-                        return '密码错误';
+                    $sqldata = $res->getData();
+                    if ($sqldata['users_password'] !== md5($pwd)) {
+                        $ajax_res = [
+                            'id' => 2,
+                            'mes' => '密码错误'
+                        ];
                     } else {
-                        return '登陆成功';
-
-                        //                    写入session
+                        //写入session
+                        Session::set('users_id', $sqldata['users_id']);
+                        Session::set('users_name', $sqldata['users_name']);
+                        Session::set('users_password', $sqldata['users_password']);
+                        Session::set('users_status', $sqldata['users_status']);
+                        $ajax_res = [
+                            'id' => 3,
+                            'mes' => '登陆成功'
+                        ];
+                        return $ajax_res;
                     }
-                    //返回执行结果跳转响应页面
                 }
             }
         }
+
+
     }
 
+    public function logout()
+    {
+//注销session
+        Session::clear();
+        $this->redirect('index/login/login');
+//跳转登陆页面
+    }
 
 
 }
