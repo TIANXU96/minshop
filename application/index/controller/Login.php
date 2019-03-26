@@ -16,7 +16,6 @@ class Login extends Controller
         if (Session::has("users_name") && Session::has("users_id")) {
             $this->redirect("index/index/index");
         } else {
-            dump(Session::get('users_name'));
             return $this->fetch();
         }
     }
