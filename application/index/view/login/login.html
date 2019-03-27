@@ -11,44 +11,53 @@
 <body>
 
 <!--start-->
-<div class="am-g am-g-fixed">
-    <div class="am-u-lg-4 am-u-sm-centered"><span class="am-center am-text-center">Min-Shop 后台管理系统</span></div>
-</div>
-<div class="am-g">
-    <div class="am-u-sm-4  am-u-sm-centered">
-        <div class="am-text-center">
-            <span class="am-text-center">登陆</span>
+<div class="account-pages">
+
+    <div class="am-g">
+        <div class="am-g">
+            <div class="am-u-sm-10 am-u-md-8 am-u-lg-4 am-u-sm-centered">
+                <span class="am-center am-text-center am-text-xxxl am-text-primary">Min-Shop </span>
+                <span class="am-center am-text-center am-text-xl">后台管理系统</span>
+            </div>
         </div>
+        <!--login-->
+        <div class="wrapper-page">
+            <div class="panel-body">
 
-        <form action="" class="am-form" method="post">
-            <div class="am-form-group">
-                <input class="" type="text" name="username" id="username"
-                       placeholder="Username">
-            </div>
-            <div class="am-form-group">
-                <input class="" type="password" name="pwd" id="password"
-                       placeholder="Password">
-            </div>
-            <div class="am-form-group">
-                <input class="am-btn am-btn-primary am-btn-block am-radius" type="button" id="ajax_post" value="登陆">
-            </div>
-        </form>
+                <div class="am-radius back-color-w">
+                    <form action="" class="am-form" method="post">
+                        <fieldset>
+                            <legend class="am-text-center am-text-secondary am-text-xl">登陆</legend>
+                            <div class="am-form-group tooltip am-block">
+                                <input class="" type="text" name="username" id="username"
+                                       placeholder="用户名  6-20位">
 
-        <div class="">
-            <span><a href="#" class="">忘记密码？</a></span>
+                            </div>
+                            <div class="am-form-group tooltip am-block">
+                                <input class="" type="password" name="pwd" id="password"
+                                       placeholder="密码  6-20位">
+
+                            </div>
+                            <div class="am-form-group">
+                                <input class="am-btn am-btn-primary am-btn-block am-radius"
+                                       type="button" id="ajax_post" value="登陆">
+                                <span class="am-text-danger am-text-lg" id="info" ></span>
+                            </div>
+                            <div class="am-form-group">
+                                <span><a href="#" class="am-link-muted am-text-sm">忘记密码？</a></span>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
         </div>
-
-
     </div>
-
 </div>
-
-
 <!--end-->
 
 
 <!--尾部JS-->
-
 {include file="public/footerJsFile"/}
 <script type="text/javascript">
     $(document).ready(function () {
@@ -68,13 +77,14 @@
                 success: function (result) {
                     switch (result['id']) {
                         case 0:
-                            $("#massage").html(result['mes']);
+                            $("#info").attr("class","am-text-danger am-text-lg am-icon-info-circle").html(result["mes"]);
+
                             break;
                         case  1:
-                            $("#massage").html(result['mes']);
+                            $("#info").attr("class","am-text-danger am-text-lg am-icon-info-circle").html(result['mes']);
                             break;
                         case  2:
-                            $("#massage").html(result['mes']);
+                            $("#info").attr("class","am-text-danger am-text-lg am-icon-info-circle").html(result['mes']);
                             break;
                         case  3:
                             window.location.replace("{:url('index/index/index')}");

@@ -60,6 +60,7 @@ class Login extends Controller
                             'id' => 2,
                             'mes' => '密码错误'
                         ];
+                        return $ajax_res;
                     } else {
                         //写入session
                         Session::set('users_id', $sqldata['users_id']);
