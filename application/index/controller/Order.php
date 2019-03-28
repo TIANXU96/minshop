@@ -14,7 +14,7 @@ use think\Controller;
 class Order extends Controller
 {
 
-    public function orderCreate(){
-
+    public function order(){
+        return $this->fetch();
     }
 }
