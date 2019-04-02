@@ -242,4 +242,9 @@ return [
         'var_page' => 'page',
         'list_rows' => 15,
     ],
+    //邮箱设置
+    'MAIL_ADDRESS' =>'tian.xu96@qq.com',
+    'MAIL_STMP' =>'stmp.qq.com',
+    'MAIL_LOGINNAME' => 'tian.xu96@qq.com',
+    'MAIL_PASSWORD' => '',
 ];

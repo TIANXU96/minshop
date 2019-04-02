@@ -25,7 +25,7 @@
             <div class="panel-body">
 
                 <div class="am-radius back-color-w">
-                    <form action="" class="am-form" method="post">
+                    <form action="{:url('index/index/ajaxlogin')}" class="am-form" method="post" id="ajax">
                         <fieldset>
                             <legend class="am-text-center am-text-secondary am-text-xl">登陆</legend>
                             <div class="am-form-group tooltip am-block">
@@ -40,14 +40,13 @@
                             </div>
                             <div class="am-form-group">
                                 <input class="am-btn am-btn-primary am-btn-block am-radius"
-                                       type="button" id="ajax_post" value="登陆">
+                                       type="button" id="ajax_post" value="登陆" >
                                 <span class="am-text-danger am-text-lg" id="info" ></span>
                             </div>
                             <div class="am-form-group">
-                                <span><a href="#" class="am-link-muted am-text-sm">忘记密码？</a></span>
+                                <span><a href="{:url('index/login/find')}" class="am-link-muted am-text-sm">忘记密码？</a></span>
                             </div>
                         </fieldset>
-
                     </form>
                 </div>
             </div>
@@ -65,7 +64,6 @@
 
             var username = $("#username").val();
             var password = $("#password").val();
-
             $.ajax({
                 url: '{:url("index/Login/ajaxLogin")}',
                 data: {
@@ -90,12 +88,14 @@
                             window.location.replace("{:url('index/index/index')}");
                             //jump
                             break;
+                        default:
+                            alert("error");
+                            break;
                     }
                 }
-            })
-        })
+            });
+        });
     });
 </script>
-
 </body>
 </html>
