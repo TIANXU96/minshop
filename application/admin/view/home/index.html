@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--引入头文件-->
+    {include file="public/headerFile" title="用户首页"/}
+</head>
+<body>
+{include file="public/head"/}
+<div class="am-cf admin-main">
+    {include file="public/sidebar"}
+    <!-- content start -->
+
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">首页</strong> /
+                    <small>概述</small>
+                </div>
+            </div>
+
+
+
+            <div class="am-g">
+                <div class="am-u-md-6">
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-hd am-cf" data-am-collapse="{target: '#new_admin'}">新建用户<span
+                                class="am-icon-chevron-down am-fr"></span></div>
+                        <div class="am-panel-bd am-collapse am-in" id="new_admin">
+                            <form action="" class="am-form" data-am-validator>
+                                <fieldset>
+                                    <legend>注册新用户</legend>
+                                    <div class="am-form-group">
+                                        <label for="new_admin_name">用户名：</label>
+                                        <input type="text" id="new_admin_name" minlength="6"
+                                               placeholder="输入需要重置的用户名6-20位" required/>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label for="new_admin_mobile">电话号码：</label>
+                                        <input type="text" id="new_admin_mobile" placeholder="请输入电话号码"
+                                               pattern="^1[34578]\d{9}$" required/>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label for="new_admin_email">邮箱：</label>
+                                        <input type="email" id="new_admin_email" placeholder="输入邮箱"
+                                               pattern="^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$" required/>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label for="new_admin_gender">性别</label>
+                                        <select id="new_admin_gender" required>
+                                            <option value="0">保密</option>
+                                            <option value="1">女</option>
+                                            <option value="2">男</option>
+                                        </select>
+                                    </div>
+                                    <button class="am-btn am-btn-secondary" type="button" id="new_users">提交
+                                    </button>
+                                    <span class="am-text-danger" id="get_back_info"></span>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="am-u-md-6">
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">欢迎:{$users_name}</div>
+                        <div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
+                            <h1> 欢迎</h1>
+                            <br>
+                            <div class="am-panel-bd am-in">
+                                <span class="am-icon-user"> <b>用户:</b>{$users_name}</span>
+                            </div>
+                            <div class="am-panel-bd am-in">
+                                <span class="am-icon-mail-reply"> <b>邮箱地址:</b>{$users_email}</span>
+
+                            </div>
+                            <div class="am-panel-bd am-in">
+                                <span class="am-icon-phone-square"> <b>TEL:</b>{$users_phone}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- content end   -->
+</div>
+
+<!--尾部JS-->
+{include file="public/footerJsFile"}
+<script type="text/javascript">
+    $("#new_users").click(function () {
+        var admin_name = $('#new_admin_name').val();
+        var admin_mobile = $('#new_admin_mobile').val();
+        var admin_email = $('#new_admin_email').val();
+        var admin_gender = $('#new_admin_gender option:selected').val();
+        $.ajax({
+            url: '{:url("admin/home/create_new_users")}',
+            data: {
+                'admin_name': admin_name,
+                'admin_mobile': admin_mobile,
+                'admin_email': admin_email,
+                'admin_gender': admin_gender,
+            },
+            type: "POST",
+            dataType: "JSON",
+            success: function (result) {
+
+                var arr = Object.keys(result);
+                switch (arr[0]) {
+                    case 'pass':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    case 'sql_wrong':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    case 'admin_email_occupy':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    case 'admin_mobile_occupy':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    case 'admin_name_occupy':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    case 'judgement':
+                        $("#get_back_info").attr("class", "am-text-danger am-icon-info-circle").html(result[arr[0]]);
+
+                        break;
+                    default:
+                        //nothing
+                        break;
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -18,7 +18,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-namespace extend\phpmailer;
+namespace phpmailer;
 
 /**
  * PHPMailer - PHP email creation and transport class.
@@ -2063,6 +2063,7 @@ class PHPMailer
             'variable_set' => 'Cannot set or reset variable: ',
             'extension_missing' => 'Extension missing: ',
         ];
+
         if (empty($lang_path)) {
             // Calculate an absolute path so it can work if CWD is not here
             $lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
@@ -3685,7 +3686,7 @@ class PHPMailer
     protected function lang($key)
     {
         if (count($this->language) < 1) {
-            $this->setLanguage('en'); // set the default language
+            $this->setLanguage('ch'); // set the default language
         }
 
         if (array_key_exists($key, $this->language)) {

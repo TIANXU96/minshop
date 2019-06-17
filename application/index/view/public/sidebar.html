@@ -1,38 +1,72 @@
 <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
-            <li><a href="{:url('index/index/index')}"><span class="am-icon-home"></span> 首页</a></li>
-            <li class="admin-parent">
-                <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}">
-                    <span class="am-icon-file"></span> 页面模块 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+            <li><a href="{:url('index/home/index')}"><span class="am-icon-home"></span> 首页</a></li>
+            <li>
+                <a class="am-cf" data-am-collapse="{target: '#user-nav'}">
+                    <span class="am-icon-group"></span> 用户管理 <span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
                 </a>
-                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                    <li>
-                        <a href="{:url('index/index/admin')}" class="am-cf"><span class="am-icon-check"></span> 个人资料</a>
-                    </li>
-                    <li>
-                        <a href="{:url('index/index/user')}"><span class="am-icon-qq"></span>查看用户</a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="user-nav">
+                    <li><a href="{:url('index/users/management')}" class="am-cf"> 用户列表 </a>
                     </li>
                 </ul>
             </li>
-            <li><a href="{:url('index/order/order')}"><span class="am-icon-table"></span> 表格</a></li>
-            <li><a href="#"><span class="am-icon-pencil-square-o"></span> 表单</a></li>
-            <li><a href="{:url('index/login/logout')}"><span class="am-icon-sign-out"></span> 注销</a></li>
+            <li>
+                <a class="am-cf" data-am-collapse="{target : '#shop-nav'}">
+                    <span class="am-icon-file"></span> 贴子管理<span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="shop-nav">
+                    <li><a href="{:url('index/Comment/index')}" class="am-cf"> 贴子管理</a></li>
+                </ul>
+            </li>
+            <!--
+            <li>
+                <a class="am-cf" data-am-collapse="{target : '#model-nav'}">
+                    <span class="am-icon-clone"></span> 板块管理<span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="model-nav">
+                    <li><a href="#" class="am-cf"> 板块管理</a></li>
+                    <li><a href="#" class="am-cf"> 板块分类</a></li>
+                </ul>
+            </li>
+            -->
+
+            <!--<li>
+                <a class="am-cf" data-am-collapse="{target : '#power-nav'}">
+                    <span class="am-icon-user"></span>权限控制<span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="power-nav">
+                    <li><a href="{:url('index/power/adminList')}" class="am-cf">管理员列表</a></li>
+                    <li><a href="{:url('index/power/powerList')}" class="am-cf">角色管理</a></li>
+                    <li><a href="{:url('index/power/powerManagement')}" class="am-cf">权限分配</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a class="am-cf" data-am-collapse="{target : '#order-nav'}">
+                    <span class="am-icon-first-order"></span>订单管理<span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="order-nav">
+                    <li><a href="{:url('index/order/order')}" class="am-cf">订单管理</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a class="am-cf" data-am-collapse="{target : '#region-nav'}">
+                    <span class="am-icon-home"></span>城市管理<span
+                        class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub" id="region-nav">
+                    <li><a href="{:url('index/city/index')}" class="am-cf">城市列表管理</a></li>
+                </ul>
+            </li>
+            -->
         </ul>
-
-        <div class="am-panel am-panel-default admin-sidebar-panel">
-            <div class="am-panel-bd">
-                <p><span class="am-icon-bookmark"></span> 公告</p>
-                <p>严格要求，精准把控</p>
-            </div>
-        </div>
-
-        <div class="am-panel am-panel-default admin-sidebar-panel">
-            <div class="am-panel-bd">
-                <p><span class="am-icon-tag"></span> 常用标签</p>
-                <p>Welcome to the Amaze UI wiki!</p>
-            </div>
-        </div>
     </div>
 </div>
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--引入头文件-->
+    {include file="public/headerFile" title="首页"/}
+</head>
+<body>
+{include file="public/head"/}
+<style type="text/css">
+    .big-pic {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<div class="am-cf admin-main">
+    {include file="public/sidebar"}
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">浏览帖子</strong> /
+                    <small>浏览帖子</small>
+                </div>
+            </div>
+            <hr>
+
+            <div class="am-panel-bd am-collapse am-in am-cf" id="collapse-panel-3">
+                <ul class="am-comments-list admin-content-comment">
+                    <!--循环开始-->
+                    {volist name="post_data" id="vo" empty="没有数据" }
+                    <li class="am-comment">
+                        <a href="#"><img src="__STATIC__/img/user/default-user-avatar.jpg" alt=""
+                                         class="am-comment-avatar" width="48" height="48"></a>
+                        <div class="am-comment-main">
+                            <header class="am-comment-hd">
+                                <div class="am-comment-meta"><a href="#" class="am-comment-author">{$vo.users_name}:</a> {$vo.post_head}
+                                    <time class="am-fr">{$vo.post_create_time}</time>
+                                </div>
+                            </header>
+                            <div class="am-comment-bd"><p>{$vo.post_desn}</p>
+                            </div>
+                            <a href="#"><img id="small_pic"
+                                             src="{$vo.post_picture_url}"
+                                             alt="" class="big-pic"  width="50%" height="50%"></a>
+                            <hr>
+                            <div class="am-comment-meta">
+
+                               <span class="am-icon-mail-reply"><b>Email:</b>{$vo.users_email}</span>
+                                <span class="am-icon-phone"><b>TEL:</b>{$vo.users_phone}</span>
+                            </div>
+                        </div>
+
+
+
+                    </li>
+                    {/volist}
+
+
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- content end   -->
+</div>
+
+<!--尾部JS-->
+{include file="public/footerJsFile"}
+<script type="text/javascript">
+    $('img#small_pic').on('click', function () {
+        $(this).toggleClass();
+    });
+</script>
+</body>
+</html>

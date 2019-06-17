@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--引入头文件-->
+    {include file="public/headerFile" title="帖子管理"/}
+</head>
+<body>
+{include file="public/head"/}
+<style type="text/css">
+    .big-pic {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<div class="am-cf admin-main">
+    {include file="public/sidebar"}
+    <!-- content start -->
+
+    <!-- form start -->
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">帖子管理</strong> /
+                    <small>帖子管理</small>
+                </div>
+            </div>
+            <hr>
+            <div class="am-g">
+
+                <ul class="am-comments-list admin-content-comment">
+
+
+                    {volist name="post_data" id="vo" empty="没有数据" }
+                    <li class="am-comment">
+                        <button type="button" class="am-comment-avatar" id="delete_post" value="{$vo.post_id}">
+                            删除
+                        </button>
+
+                        <div class="am-comment-main">
+                            <header class="am-comment-hd">
+                                <div class="am-comment-meta"><a href="#" class="am-comment-author">{$vo.users_name}:</a>
+                                    {$vo.post_head}
+                                    <time class="am-fr">{$vo.post_create_time}</time>
+                                </div>
+                            </header>
+                            <div class="am-comment-bd"><p>{$vo.post_desn}</p>
+                            </div>
+                            <a href="#"><img id="small_pic"
+                                             src="{$vo.post_picture_url}"
+                                             alt="" class="big-pic" width="50%" height="50%"></a>
+                            <hr>
+                            <div class="am-comment-meta">
+                                <span class="am-icon-mail-reply"><b>Email:</b>{$vo.users_email}</span>
+                                <span class="am-icon-phone"><b>TEL:</b>{$vo.users_phone}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- content end   -->
+
+<!--引入JS文件-->
+{include file="public/footerJsFile"}
+<script type="text/javascript">
+    $('img#small_pic').on('click', function () {
+        $(this).toggleClass();
+    });
+
+    $("button#delete_post").on('click', function () {
+        var order = $(this).val();
+        console.log(order);
+        $.ajax({
+            url: '{:url("index/comment/delete_ajax")}',
+            data: {
+                'delete_id': order,
+            },
+            type: "POST",
+            dataType: "JSON",
+            success: function (result) {
+                alert('删除成功');
+            window.location.reload();
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

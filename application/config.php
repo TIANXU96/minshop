@@ -15,9 +15,9 @@ return [
     // +----------------------------------------------------------------------
 
     // 应用调试模式
-    'app_debug' => true,
+    'app_debug' => false,
     // 应用Trace
-    'app_trace' => true,
+    'app_trace' => false,
     // 应用模式状态
     'app_status' => '',
     // 是否支持多模块
@@ -59,10 +59,10 @@ return [
     'deny_module_list' => ['common'],
     // 默认控制器名
     //'default_controller'     => 'Index',
-    'default_controller' => 'Login',
+    'default_controller' => 'Index',
     // 默认操作名
     //'default_action'         => 'index',
-    'default_action' => 'login',
+    'default_action' => 'index',
     // 默认验证器
     'default_validate' => '',
     // 默认的空控制器名
@@ -241,10 +241,6 @@ return [
         'type' => 'bootstrap',
         'var_page' => 'page',
         'list_rows' => 15,
-    ],
-    //邮箱设置
-    'MAIL_ADDRESS' =>'tian.xu96@qq.com',
-    'MAIL_STMP' =>'stmp.qq.com',
-    'MAIL_LOGINNAME' => 'tian.xu96@qq.com',
-    'MAIL_PASSWORD' => '',
+    ]
+
 ];

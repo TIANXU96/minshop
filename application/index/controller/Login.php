@@ -2,82 +2,25 @@
 
 namespace app\index\controller;
 
-use app\index\validate\User;
-use app\index\model\Users;
+use app\index\model\Adminsql;
+use app\index\model\Rolesql;
+use app\index\model\Userdata;
 use think\Controller;
 use think\Loader;
+use think\process\pipes\Unix;
 use think\Request;
 use think\Session;
-use extend\phpmailer\PHPMailer;
+use phpmailer\PHPMailer;
 
 class Login extends Controller
 {
     public function login()
     {
-        if (Session::has("users_name") && Session::has("users_id")) {
-            $this->redirect("index/index/index");
+        if (Session::has("admin_name") && Session::has("admin_id")) {
+            $this->redirect("index/home/index");
         } else {
             return $this->fetch();
         }
-    }
-
-    public function ajaxLogin()
-    {
-        //获取登陆页面数据
-        $request = Request::instance();
-        if ($request->isAjax()) {
-            $username = $request->post('username');
-            $pwd = $request->post('pwd');
-            $data = [
-                'username' => $username,
-                'password' => $pwd
-            ];
-            $judgement = $this->validate($data, 'User.login');
-            $ajax_res = [];
-            if (true !== $judgement) {
-                $ajax_res = [
-                    'id' => 0,
-                    'mes' => $judgement
-                ];
-                return $ajax_res;
-            } else {
-                //判断用户名是否存在
-                $map = [];
-                $map['users_name'] = ['=', $username];
-                $res = Loader::model('Users')
-                    ->where($map)
-                    ->find();
-                if (empty($res)) {
-                    $ajax_res = [
-                        'id' => 1,
-                        'mes' => '用户不存在'
-                    ];
-                    return $ajax_res;
-                } else {
-                    $sqldata = $res->getData();
-                    if ($sqldata['users_password'] !== md5($pwd)) {
-                        $ajax_res = [
-                            'id' => 2,
-                            'mes' => '密码错误'
-                        ];
-                        return $ajax_res;
-                    } else {
-                        //写入session
-                        Session::set('users_id', $sqldata['users_id']);
-                        Session::set('users_name', $sqldata['users_name']);
-                        Session::set('users_password', $sqldata['users_password']);
-                        Session::set('users_status', $sqldata['users_status']);
-                        $ajax_res = [
-                            'id' => 3,
-                            'mes' => '登陆成功'
-                        ];
-                        return $ajax_res;
-                    }
-                }
-            }
-        }
-
-
     }
 
     public function logout()
@@ -90,48 +33,274 @@ class Login extends Controller
 
     public function find()
     {
-//忘记密码
-//进行数据验证选择验证方式
-//邮箱，或者密保问题
-//数据校验
-//输入新密码
-//提交提示成功
         return $this->fetch();
+    }
+
+    public function ajaxLogin()
+    {
+        //获取登陆页面数据
+        $request = Request::instance();
+        if ($request->isAjax()) {
+            $admin_name = $request->post('username');
+            $admin_pwd = $request->post('pwd');
+            $data = [
+                'username' => $admin_name,
+                'password' => $admin_pwd
+            ];
+            $judgement = $this->validate($data, 'Admin.login');
+            $ajax_res = [];
+            if (true !== $judgement) {
+                $ajax_res = [
+                    'id' => 0,
+                    'mes' => $judgement
+                ];
+                return $ajax_res;
+            } else {
+                //判断用户名是否存在
+                $map['admin_name'] = ['=', $admin_name];
+                $res = Adminsql::where($map)->find();
+                if (empty($res)) {
+                    $ajax_res = [
+                        'id' => 1,
+                        'mes' => '用户不存在'
+                    ];
+                    return $ajax_res;
+                } else {
+                    $sql_data = $res->getData();
+                    if ($sql_data['admin_password'] !== md5($admin_pwd)) {
+                        $ajax_res = [
+                            'id' => 2,
+                            'mes' => '密码错误'
+                        ];
+                        return $ajax_res;
+                    } else {
+                        //写入session
+                        Session::set('admin_id', $sql_data['admin_id']);
+                        Session::set('admin_name', $sql_data['admin_name']);
+                        Session::set('admin_password', $sql_data['admin_password']);
+                        Session::set('admin_mobile', $sql_data['admin_mobile']);
+                        Session::set('admin_role_id', $sql_data['admin_role_id']);
+                        Session::set('admin_email', $sql_data['admin_email']);
+                        Session::set('admin_login_total', $sql_data['admin_login_total']);
+                        $ajax_res = [
+                            'id' => 3,
+                            'mes' => '登陆成功'
+                        ];
+
+//                        更新数据库状态
+                        $update_where['admin_name'] = ['=', $admin_name];
+                        $admin_login_total = (int)$sql_data['admin_login_total'] + 1;
+                        $admin_last_landing = date('Y-m-d H:i:s', time());
+                        $update_data = [
+                            'admin_login_total' => $admin_login_total,
+                            'admin_last_landing' => $admin_last_landing,
+                        ];
+                        $sql_res = Adminsql::where($update_where)->update($update_data);
+
+                        return $ajax_res;
+                    }
+                }
+            }
+
+        }
+
+
     }
 
     public function sendEmail()
     {
+        $request = Request::instance();
+        if ($request->isAjax()) {
+//            存放查询条件
+            $map = [];
 
-        $toemail = 'xxx@qq.com';//定义收件人的邮箱
+            $admin_name = $request->post('admin_name');
+            $admin_email = $request->post('admin_email');
+            $data = [
+                'username' => $admin_name,
+                'admin_email' => $admin_email
+            ];
 
-        $mail = new PHPMailer();
+//          将数据进行校验
+            $judgement = $this->validate($data, 'Admin.send_email');
+            if (true === $judgement) {
+//                    与数据库进行比对
+                $map['admin_email'] = ['=', $admin_email];
+                $map['admin_name'] = ['=', $admin_name];
+                $sql_res = Adminsql::where($map)->select();
+                if (!empty($sql_res)) {
+                    $mail = new PHPMailer();
+                    //验证码已经生成
+                    $identify = verifyCode();
+//                  接受验证码的邮箱
+                    $to = $admin_email;
+                    //允许使用html语言 返回内容
+                    $content = '<p style="color:#1576c2">[Min-Shop]<p/><hr/><p>尊敬的用户:' . $admin_name . '以下是你的账户重置密码所需的验证码:</p><br/>';
+                    $content .= '<b style="background-color: cornflowerblue">' . $identify . '</b>';
+                    $content .= '<br/><p>' . date('Y-m-d H:i:s', time()) . '验证码有效期2分钟</p>';
+//                    $res = email($to, $content, "[Min-Shop]验证码", $mail);
+//                    if ($res == false) {
+//                    } else {
+//                        $error_res['send_res'] = '邮件格式输入有问题,请检查' . $res;
+//                        return $error_res;
+//                    }
+//                        判断是否存在session
+//                        Session::delete('email_verify');  // 功能:只发送新的验证码 用于测试
+                    if (Session::has('email_verify')) {
+//                            存在判断是否超时 获取session中的时间戳 跟现在作比较
+                        $get_session = Session::get('email_verify');
+                        $in_session_time_stamp = explode("|", $get_session);
+                        $create_time = (int)$in_session_time_stamp[1];
+                        if ((time() - $create_time) <= 180) {
+//                      没有超时 则不用创建session 也不用销毁session
+                            $pass['not_expire'] = '验证码已经发送请不要重复提交';
+                            return $pass;
+                        } else {
+//                                超时 销毁session并创建新session
+                            email($to, $content, "[Min-Shop]验证码", $mail);
+                            Session::delete('email_verify');
+                            $now = time();
+//                               session中存放用户名 好做定位
+                            $identify_time_stamp = $identify . '|' . $now . '|' . $admin_name;
+                            Session::set('email_verify', $identify_time_stamp);
+                            $pass['pass'] = '验证码已经发送请注意查收,验证码有效期2分钟,请注意时间';
+                            return $pass;
+                        }
+                    } else {
+//                            不存在时直接创建
+                        email($to, $content, "[Min-Shop]验证码", $mail);
+                        $now = time();
+                        $identify_time_stamp = $identify . '|' . $now . '|' . $admin_name;
+                        Session::set('email_verify', $identify_time_stamp);
+                        $pass['pass'] = '验证码已经发送请注意查收,验证码有效期2分钟,请注意时间';
+                        return $pass;
+                    }
 
-        $mail->isSMTP();// 使用SMTP服务
-        $mail->CharSet = "utf8";// 编码格式为utf8，不设置编码的话，中文会出现乱码
-        $mail->Host = "smtp.163.com";// 发送方的SMTP服务器地址
-        $mail->SMTPAuth = true;// 是否使用身份验证
-        $mail->Username = "xxx@163.com";   // 发送方的163邮箱用户名，就是你申请163的SMTP服务使用的163邮箱</span><span style="color:#333333;">
-        $mail->Password = "xxxxxx";// 发送方的邮箱密码，注意用163邮箱这里填写的是“客户端授权密码”而不是邮箱的登录密码！</span><span style="color:#333333;">
-        $mail->SMTPSecure = "ssl";// 使用ssl协议方式</span><span style="color:#333333;">
-        $mail->Port = 994;// 163邮箱的ssl协议方式端口号是465/994
+                } else {
+                    $error_res['sql_res'] = '用户名邮箱不匹配,请检查';
+                    return $error_res;
+                }
+            } else {
+                $error_res['validate_res'] = $judgement;
+                return $error_res;
 
-        $mail->setFrom("xxx@163.com", "Mailer");// 设置发件人信息，如邮件格式说明中的发件人，这里会显示为Mailer(xxxx@163.com），Mailer是当做名字显示
-        $mail->addAddress($toemail, 'Wang');// 设置收件人信息，如邮件格式说明中的收件人，这里会显示为Liang(yyyy@163.com)
-        $mail->addReplyTo("xxx@163.com", "Reply");// 设置回复人信息，指的是收件人收到邮件后，如果要回复，回复邮件将发送到的邮箱地址
-        //$mail->addCC("xxx@163.com");// 设置邮件抄送人，可以只写地址，上述的设置也可以只写地址(这个人也能收到邮件)
-        //$mail->addBCC("xxx@163.com");// 设置秘密抄送人(这个人也能收到邮件)
-        //$mail->addAttachment("bug0.jpg");// 添加附件
+            }
+
+        }
+    }
+
+    public function ajax_jump_find()
+    {
+        $request = Request::instance();
+        if ($request->isAjax()) {
+            $admin_name = $request->post('admin_name');
+            $admin_email = $request->post('admin_email');
+            $admin_verify = $request->post('admin_verify');
+            $data = [
+                'username' => $admin_name,
+                'admin_email' => $admin_email,
+                'admin_verify' => $admin_verify
+            ];
+            $judgement = $this->validate($data, 'Admin.find_password');
+//          数据校验通过
+            if (true === $judgement) {
+                $get_session = Session::get('email_verify');
+                $in_session_time_stamp = explode("|", $get_session);
+                $email_code = $in_session_time_stamp[0];
+                $create_time = (int)$in_session_time_stamp[1];
+                $session_admin_name = $in_session_time_stamp[2];
+//              存在判断是否超时 获取session中的时间戳,用户名信息 进行比对
+
+                if ((time() - $create_time) <= 180) {
+//              没有超时 则不用创建session 也不用销毁session
+                    if ($session_admin_name == $admin_name) {
+                        if ($email_code == $admin_verify) {
+                            $pass['pass'] = 'jump';
+                            return $pass;
+                        }else{
+                            $error_res['not_same'] = '验证码输入错误';
+                            return $error_res;
+                        }
+                    } else {
+//              用户名不匹配
+                        $error_res['wrong_admin_name'] = '用户名码错误!';
+                        return $error_res;
+                    }
+                } else {
+//              超时 销毁session
+                    Session::delete('email_verify');
+                    $error_res['expire'] = '验证码已经超时,请重新获取!';
+                    return $error_res;
+                }
+            } else {
+                $error_res['validate_res'] = $judgement;
+                return $error_res;
+            }
+        }
+    }
 
 
-        $mail->Subject = "这是一个测试邮件";// 邮件标题
-        $mail->Body = "邮件内容是 <b>您的验证码是：123456</b>，哈哈哈！";// 邮件正文
-        //$mail->AltBody = "This is the plain text纯文本";// 这个是设置纯文本方式显示的正文内容，如果不支持Html方式，就会用到这个，基本无用
+    public function change()
+    {
+        return $this->fetch();
+    }
 
-        if (!$mail->send()) {// 发送邮件
-            echo "Message could not be sent.";
-            echo "Mailer Error: " . $mail->ErrorInfo;// 输出错误信息
-        } else {
-            echo '发送成功';
+    public function ajax_change()
+    {
+        $request = Request::instance();
+        if ($request->isAjax()) {
+            $admin_name = $request->post('admin_name');
+            $password_1 = $request->post('password_1');
+            $password_2 = $request->post('password_2');
+            $data = [
+                'username' => $admin_name,
+                'password' => $password_1,
+            ];
+            if ($password_1 == $password_2) {
+                $judgement = $this->validate($data, 'Admin.change');
+                if (true === $judgement) {
+
+                    if (Session::has('email_verify')) {
+                        $get_session = Session::get('email_verify');
+                        $in_session_time_stamp = explode("|", $get_session);
+                        $create_time = (int)$in_session_time_stamp[1];
+                        $session_admin_name = $in_session_time_stamp[2];
+
+                        if ($session_admin_name == $admin_name) {
+                            if ((time() - $create_time) <= 180) {
+                                $where['admin_name'] = ['=', $admin_name];
+                                $sql_data = [
+                                    'admin_password' => md5($password_1),
+                                ];
+                                $sql_update = Adminsql::where($where)->update($sql_data);
+                                $success['pass'] = '更新完成,请登录';
+                                Session::delete('email_verify');
+                                return $success;
+                            } else {
+                                Session::delete('email_verify');
+                                $error_res['verify_time_pass'] = '操作超时,请重新获取验证码';
+                                return $error_res;
+                            }
+
+                        } else {
+                            $error_res['admin_name_error'] = '当前用户名输入错误';
+                            return $error_res;
+                        }
+
+                    } else {
+                        $error_res['no_verify_email'] = '操作超时,请重新获取验证码';
+                        return $error_res;
+                    }
+                } else {
+                    $error_res['pwd_error'] = $judgement;
+                    return $error_res;
+                }
+            } else {
+                $error_res['pwd_not_same'] = '两次密码不一致';
+                return $error_res;
+            }
+
+
         }
     }
 

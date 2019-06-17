@@ -18,7 +18,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="work" />
-    <orderEntry type="module" module-name="sycit" />
-    <orderEntry type="module" module-name="sycit" />
   </component>
 </module>

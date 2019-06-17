@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--引入头文件-->
+    {include file="public/headerFile" title="帖子发布"/}
+</head>
+<body>
+{include file="public/head"/}
+<div class="am-cf admin-main">
+    {include file="public/sidebar"}
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">帖子发布</strong> /
+                    <small>帖子发布</small>
+                </div>
+            </div>
+            <br>
+            <form enctype="multipart/form-data" action="{:url('admin/comment/create_post')}"
+                  class="am-form" id="ue-form" method="post">
+                <fieldset>
+                    <legend>发布信息</legend>
+                    <div class="am-form-group">
+                        <label for="comment_head">标题：</label>
+                        <input type="text" id="comment_head" name="post_head" value="[二手/闲置][*成新/全新/未拆封][地区]<商品名>"
+                               required/>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="comment_body">内容：</label>
+                        <textarea class="am-validate" name="post_body" id="comment_body" placeholder="描述一下物品详情"
+                                  required> </textarea>
+                    </div>
+
+
+                    <div class="am-form-group">
+                        <label for="file1">选择图片：</label>
+                        <input class="am-btn " type="file" name="image[]" id="file1">
+                    </div>
+
+
+                    <div class="am-form-group">
+
+                        <b> 图片支持: png,jpg,jpeg</b>
+                    </div>
+
+                    <button class="am-btn am-btn-secondary" type="submit">提交</button>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+    <!-- content end   -->
+</div>
+
+<!--尾部JS-->
+{include file="public/footerJsFile"}
+<script>
+    $(function () {
+        $('#file1').on('change', function () {
+            // console.log(this.files);
+            var path = this.files;
+            var i = 0;
+            $.each(path, function () {
+                var right_name = path[i]['name'];
+
+                if (checkImg(path[i]['name'])) {
+
+                } else {
+                    alert('请选择正确格式');
+                    $('#file1').val('');
+
+                }
+                i = i + 1;
+            });
+
+        });
+    });
+
+    function checkImg(files_name) {
+        var img_id = files_name; //获取外面传进来的value
+        // console.log(img_id);
+        var index = img_id.indexOf("."); //（考虑严谨用lastIndexOf(".")得到）得到"."在第几位
+        // console.log(index);
+        img_id = img_id.substring(index); //截断"."之前的，得到后缀
+        // console.log(img_id);
+        if ((img_id != ".png") && (img_id != ".jpg") && (img_id != ".jpeg")) {  //根据后缀，判断是否符合图片格式
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+</body>
+</html>

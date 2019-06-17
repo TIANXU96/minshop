@@ -1,0 +1,80 @@
+---------------------------------------------------------------
+[ 2019-06-07T22:22:09+08:00 ] 0.0.0.0 POST localhost/work/minshop/public/index/login/sendemail.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.016039s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.018376s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_admin` WHERE  `admin_email` = '840001494@qq.com'  AND `admin_name` = 'asdasd' [ RunTime:0.000646s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:34+08:00 ] 0.0.0.0 POST localhost/work/minshop/public/index/login/ajax_change.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001611s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.001848s ]
+[ sql ] [ SQL ] UPDATE `sh_admin`  SET `admin_password`='5d618240a51c43f2aca5755bc473adbe'  WHERE  `admin_name` = 'asdasd' [ RunTime:0.084411s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:40+08:00 ] 0.0.0.0 POST localhost/work/minshop/public/index/login/ajaxlogin.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001220s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.001832s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_admin` WHERE  `admin_name` = 'asdasd' LIMIT 1 [ RunTime:0.000552s ]
+[ sql ] [ SQL ] UPDATE `sh_admin`  SET `admin_login_total`=27,`admin_last_landing`='2019-06-07 22:22:40'  WHERE  `admin_name` = 'asdasd' [ RunTime:0.001161s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:41+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/home/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001855s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.002840s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_admin` WHERE  `admin_id` >= 0 [ RunTime:0.022797s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.002104s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` WHERE  `users_id` >= 0 [ RunTime:0.000609s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_post` [ RunTime:0.001933s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_post` WHERE  `post_id` >= 0 [ RunTime:0.000529s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin_role` [ RunTime:0.001987s ]
+[ sql ] [ SQL ] SELECT `role_name` FROM `sh_admin_role` WHERE  `role_id` = 1 LIMIT 1 [ RunTime:0.006979s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:43+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/users/management.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001899s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.003489s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sh_users` WHERE  `users_id` > 0 LIMIT 1 [ RunTime:0.000561s ]
+[ sql ] [ SQL ] SELECT `users_id` AS `users_id`,`users_name` AS `users_name`,`users_real_name` AS `users_real_name`,`users_gender` AS `users_gender`,`users_phone` AS `users_phone`,`users_state` AS `users_state`,`users_email` AS `users_email`,`users_last_landing` AS `users_last_landing` FROM `sh_users` WHERE  `users_id` > 0 LIMIT 0,6 [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` [ RunTime:0.000528s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:45+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/comment/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001648s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_post` [ RunTime:0.002840s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_post` WHERE  `post_id` >= 0 [ RunTime:0.000573s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:46+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/users/management.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001284s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.001808s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sh_users` WHERE  `users_id` > 0 LIMIT 1 [ RunTime:0.000553s ]
+[ sql ] [ SQL ] SELECT `users_id` AS `users_id`,`users_name` AS `users_name`,`users_real_name` AS `users_real_name`,`users_gender` AS `users_gender`,`users_phone` AS `users_phone`,`users_state` AS `users_state`,`users_email` AS `users_email`,`users_last_landing` AS `users_last_landing` FROM `sh_users` WHERE  `users_id` > 0 LIMIT 0,6 [ RunTime:0.000500s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` [ RunTime:0.000443s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:22:52+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/home/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001109s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.001754s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_admin` WHERE  `admin_id` >= 0 [ RunTime:0.000592s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.001703s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` WHERE  `users_id` >= 0 [ RunTime:0.000556s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_post` [ RunTime:0.001821s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_post` WHERE  `post_id` >= 0 [ RunTime:0.000670s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin_role` [ RunTime:0.004657s ]
+[ sql ] [ SQL ] SELECT `role_name` FROM `sh_admin_role` WHERE  `role_id` = 1 LIMIT 1 [ RunTime:0.000516s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:23:06+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/comment/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001341s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_post` [ RunTime:0.003466s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_post` WHERE  `post_id` >= 0 [ RunTime:0.000546s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:23:08+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/users/management.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001082s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.001819s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sh_users` WHERE  `users_id` > 0 LIMIT 1 [ RunTime:0.000504s ]
+[ sql ] [ SQL ] SELECT `users_id` AS `users_id`,`users_name` AS `users_name`,`users_real_name` AS `users_real_name`,`users_gender` AS `users_gender`,`users_phone` AS `users_phone`,`users_state` AS `users_state`,`users_email` AS `users_email`,`users_last_landing` AS `users_last_landing` FROM `sh_users` WHERE  `users_id` > 0 LIMIT 0,6 [ RunTime:0.000492s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` [ RunTime:0.000396s ]
+---------------------------------------------------------------
+[ 2019-06-07T22:23:10+08:00 ] 0.0.0.0 GET localhost/work/minshop/public/index/home/index.html
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001271s ] mysql:host=127.0.0.1;port=3306;dbname=minshop;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin` [ RunTime:0.002564s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_admin` WHERE  `admin_id` >= 0 [ RunTime:0.000573s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_users` [ RunTime:0.001978s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_users` WHERE  `users_id` >= 0 [ RunTime:0.000551s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_post` [ RunTime:0.001667s ]
+[ sql ] [ SQL ] SELECT * FROM `sh_post` WHERE  `post_id` >= 0 [ RunTime:0.000430s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sh_admin_role` [ RunTime:0.001667s ]
+[ sql ] [ SQL ] SELECT `role_name` FROM `sh_admin_role` WHERE  `role_id` = 1 LIMIT 1 [ RunTime:0.000447s ]
